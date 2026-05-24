@@ -4,6 +4,14 @@ Applicazione Python per visualizzare in tempo reale il feed di una webcam con ef
 
 ---
 
+## Requisiti
+
+- **Python**: 3.14.2 (versione usata durante lo sviluppo; versioni 3.9+ dovrebbero funzionare)
+- **Hardware**: webcam USB integrata o esterna. Per la funzionalita' Raspberry Pi Camera e' necessario il modulo CSI ufficiale collegato alla porta CSI del Raspberry Pi.
+- **Sistema operativo**: Windows, macOS, Linux, Raspberry Pi OS
+
+---
+
 ## Installazione
 
 Il programma funziona con qualsiasi webcam USB senza dipendenze aggiuntive: supporta effetti, screenshot e registrazione video. Sono disponibili due funzionalita' opzionali che richiedono installazione extra:
@@ -86,14 +94,19 @@ Il rilevamento dei volti e' sempre attivo (su frame ridotto a meta risoluzione p
 | O / P | Aumenta / diminuisce intensita' (solo alcuni effetti Slot 1) |
 | E     | Screenshot (salvato in `screenshots/`) |
 | R     | Avvia / ferma registrazione (salvata in `recordings/`) |
+| X     | Attiva / disattiva modalita' automatica |
 | Q     | Esci |
 
 ### HUD e interfaccia
 
-- In alto a sinistra: FPS, numero di volti rilevati, effetti attivi per slot, stato webcam virtuale
+- In alto a sinistra: FPS, numero di volti rilevati, effetti attivi per slot, stato webcam virtuale, stato modalita' automatica
 - In basso: barra di navigazione con i tre slot, effetto corrente e adiacenti
 - Bordo rosso lampeggiante durante la registrazione
 - Flash bianco al momento dello screenshot
+
+### Modalita' automatica
+
+Premendo X si attiva una modalita' in cui ogni 5 secondi viene selezionato un effetto casuale per ciascuno dei tre slot contemporaneamente. Utile per esplorare combinazioni di effetti senza interazione manuale.
 
 ### Webcam virtuale
 

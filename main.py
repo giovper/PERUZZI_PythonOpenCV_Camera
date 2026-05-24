@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import os
+import random
 import time
 from datetime import datetime
 
@@ -94,6 +95,8 @@ def run_main(camera: GenericCamera) -> None:
     is_recording = False
     video_writer = None
     screenshot_flash = 0
+    auto_mode = False
+    auto_last = time.perf_counter()
 
     vcam = None
     if camera.is_virtual:
@@ -120,6 +123,12 @@ def run_main(camera: GenericCamera) -> None:
             break
 
         frame = cv2.resize(frame, (1280, 720))
+
+        if auto_mode and time.perf_counter() - auto_last >= 5.0:
+            for i in range(3):
+                slot_indices[i] = random.randint(0, len(ALL_SLOTS[i]) - 1)
+                slot_effects[i] = ALL_SLOTS[i][slot_indices[i]][1]()
+            auto_last = time.perf_counter()
 
         #Face detection su frame ridotto per velocità
         gray_small = cv2.resize(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), (640, 360))
@@ -150,7 +159,7 @@ def run_main(camera: GenericCamera) -> None:
 
         # disegna UI su una copia separata
         display = result.copy()
-        draw_hud(display, fps, len(faces), effect_names, active_slot, vcam_status)
+        draw_hud(display, fps, len(faces), effect_names, active_slot, vcam_status, auto_mode)
         draw_nav_bar(display, ALL_SLOTS, slot_indices, active_slot, slot_effects)
         if is_recording:
             draw_rec_indicator(display)
@@ -207,6 +216,10 @@ def run_main(camera: GenericCamera) -> None:
             path = os.path.join('screenshots', f'screen_{ts}.jpg')
             cv2.imwrite(path, result)
             screenshot_flash = 6 # per 6 frame
+
+        elif key in (ord('x'), ord('X')):
+            auto_mode = not auto_mode
+            auto_last = time.perf_counter()
 
         elif key in (ord('r'), ord('R')):
             if not is_recording:

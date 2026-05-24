@@ -139,13 +139,16 @@ def semi_rect(frame: np.ndarray, x1: int, y1: int, x2: int, y2: int,
 
 
 def draw_hud(frame: np.ndarray, fps: float, face_count: int,
-             slot_names: list, active_slot: int, vcam_status: str = "") -> None:
+             slot_names: list, active_slot: int, vcam_status: str = "",
+             auto_mode: bool = False) -> None:
 
     vcam_color = (0, 220, 100) if vcam_status == "attiva" else (80, 80, 200) if "vcam" in vcam_status else (100, 100, 100)
+    auto_color = (0, 220, 100) if auto_mode else (100, 100, 100)
     lines = [
         (f"FPS: {fps:.1f}", 0.5, (0, 230, 230), 1),
         (f"Volti: {face_count}", 0.5, (200, 200, 200), 1),
         (f"VCam: {vcam_status}", 0.45, vcam_color, 1),
+        (f"X auto: {'ON' if auto_mode else 'OFF'}", 0.45, auto_color, 1),
         ("", 0.4, (0, 0, 0), 0),
         (f"[1] {slot_names[0]}", 0.45, (180, 180, 255), 1),
         (f"[2] {slot_names[1]}", 0.45, (180, 255, 180), 1),
