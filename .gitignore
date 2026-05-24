@@ -1,0 +1,8 @@
+INFO*.txt
+venv/
+__pycache__/
+*.pyc
+screenshots/
+recordings/
+.DS_Store
+Project*.txt
