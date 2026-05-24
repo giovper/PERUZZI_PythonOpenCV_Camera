@@ -6,6 +6,12 @@ Applicazione Python per visualizzare in tempo reale il feed di una webcam con ef
 
 ## Installazione
 
+Il programma funziona con qualsiasi webcam USB senza dipendenze aggiuntive: supporta effetti, screenshot e registrazione video. Sono disponibili due funzionalita' opzionali che richiedono installazione extra:
+- **Webcam virtuale OBS**: invia il feed processato ad altre applicazioni (es. videochiamate) — disponibile solo su Windows e macOS. Linux usa un sistema diverso (v4l2loopback); per semplicita' non e' supportato in questo progetto.
+- **Raspberry Pi Camera**: supporto al modulo CSI oltre alle normali webcam USB
+
+Nei casi seguenti e' spiegato cosa installare per ogni scenario.
+
 ### PC — Windows / macOS / Linux (solo webcam USB normali)
 
 ```

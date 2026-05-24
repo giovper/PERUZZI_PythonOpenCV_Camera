@@ -1,1 +1,0 @@
-- documentazione readme adeguata (e anche docs/)

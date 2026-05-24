@@ -138,35 +138,33 @@ def run_main(camera: GenericCamera) -> None:
         fps = 1.0 / (now - fps_prev_time)
         fps_prev_time = now
 
-        #UI e vcam
         effect_names = [SLOT1[slot_indices[0]][0],
                         SLOT2[slot_indices[1]][0],
                         SLOT3[slot_indices[2]][0]]
 
+        # vcam e recording usano il frame pulito (senza UI)
         if vcam is not None:
             vcam.send(cv2.cvtColor(result, cv2.COLOR_BGR2RGB))
-
-        draw_hud(result, fps, len(faces), effect_names, active_slot, vcam_status)
-        draw_nav_bar(result, ALL_SLOTS, slot_indices, active_slot, slot_effects)
-
         if is_recording:
-            draw_rec_indicator(result)
             video_writer.write(result)
 
+        # disegna UI su una copia separata
+        display = result.copy()
+        draw_hud(display, fps, len(faces), effect_names, active_slot, vcam_status)
+        draw_nav_bar(display, ALL_SLOTS, slot_indices, active_slot, slot_effects)
+        if is_recording:
+            draw_rec_indicator(display)
         if screenshot_flash > 0:
-            draw_screenshot_flash(result)
+            draw_screenshot_flash(display)
             screenshot_flash -= 1
 
-
-        #Ridimensiona a finesra
+        # letterbox per finestra ridimensionabile
         try:
             _, _, win_w, win_h = cv2.getWindowImageRect(WIN)
             if win_w > 10 and win_h > 10:
-                display = letterbox(result, win_w, win_h)
-            else:
-                display = result
+                display = letterbox(display, win_w, win_h)
         except Exception:
-            display = result
+            pass
 
         cv2.imshow(WIN, display)
 
