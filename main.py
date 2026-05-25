@@ -85,7 +85,12 @@ def letterbox(frame, win_w: int, win_h: int): #ridimenisona il frame agiungendo 
 
 
 def run_main(camera: GenericCamera) -> None:
-    cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml' # venv/lib/python3.14/site-packages/cv2/data/ nome_cascade
+    try:
+        cascade_path = cv2.data.haarcascades + 'haarcascade_frontalface_default.xml' #problema della versione "apt" di OpenCV: cv2.data esiste solo per la versione pip, dunque tuona se eseguo il codice sul raspb.
+    except AttributeError:
+        import glob #glob permette di fare ricerche nel FS
+        results = glob.glob('/usr/**/haarcascade_frontalface_default.xml', recursive=True) #cerca quel file in qualsiasi sottocartella di /usr/ ritornando una lista di path
+        cascade_path = results[0] if results else 'haarcascade_frontalface_default.xml'
     face_cascade = cv2.CascadeClassifier(cascade_path)
 
     slot_indices = [0, 0, 0]
